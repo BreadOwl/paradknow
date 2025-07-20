@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Добавить вопрос по теме: {{ topic.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить вопрос</button>
+    </form>
+
+    <p><a href="{% url 'topic_detail' pk=topic.pk %}">Назад к теме</a></p>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block page_header %}
+Редактировать тему
+{% endblock page_header %}
+{% block content %}
+<h1>Редактировать тему: {{ topic.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.name }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <p><a href="{% url 'index' %}">Назад</a></p>
+{% endblock content %}

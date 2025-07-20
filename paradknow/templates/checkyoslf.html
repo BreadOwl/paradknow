@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+
+    .question {
+        font-size: 1.2em;
+    }
+
+    .answer {
+        display: none; /* <-- ОСНОВНОЙ момент */
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+</style>
+
+<h1>Самопроверка</h1>
+
+    {% if question %}
+        <div class="card" onclick="showAnswer()">
+            <div class="question">
+                {{ question.title }}<br>
+
+            </div>
+            <div class="answer" id="answer" onclick="event.stopPropagation(); nextQuestion({{ topic_pk }});">
+                {{ question.answer|safe }}
+            </div>
+        </div>
+    {% else %}
+        <p>Нет вопросов по этой теме.</p>
+    {% endif %}
+
+<p><a href="{% url 'topic_detail' pk=topic_pk %}">Назад к теме</a></p>
+
+<script>
+    let answered = false;
+
+    function showAnswer() {
+        if (!answered) {
+            document.getElementById('answer').style.display = 'block';
+            answered = true;
+        }
+    }
+
+    function nextQuestion(topicPk) {
+        window.location.href = '/topic/' + topicPk + '/checkyoslf/';
+    }
+</script>
+{% endblock content %}

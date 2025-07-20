@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Редактировать вопрос: {{ question.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+<p><a href="{% url 'topic_detail' pk=question.topic.pk %}">Назад</a></p>
+
+<script>
+    function toggleAnswer(id) {
+        const answerDiv = document.getElementById('answer-' + id);
+        if (answerDiv.style.display === 'none') {
+            answerDiv.style.display = 'block';
+        } else {
+            answerDiv.style.display = 'none';
+        }
+    }
+</script>
+{% endblock content %}

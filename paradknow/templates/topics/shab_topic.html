@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <title>{{ topic.name }}</title>
+    <h1>Тема: {{ topic.name }}</h1>
+    <br>В рамках каждой темы можно пройти самопроверку. Приложение случайно выбирает вопрос. Чтобы посмотреть ответ, нужно кликнуть по вопросу. Чтобы перейти к следующему вопросу, нужно кликнуть на ответ.
+
+    <p><a href="{% url 'checkyoslf' topic_pk=topic.pk %}">▶ Начать самопроверку</a></p>
+
+    <br>Чтобы посмотреть ответ на вопрос, нужно кликнуть на сам вопрос.
+    <h2>Вопросы:</h2>
+    <a href="{% url 'question_add' topic_pk=topic.pk %}">Добавить вопрос</a>
+    {% if questions %}
+        <ul>
+            {% for question in questions %}
+                <li>
+                    <div class="question-block" onclick="toggleAnswer({{ question.pk }})">
+                    <strong>{{ question.title }}</strong>
+                    <a href="{% url 'question_edit' question.pk %}">✏️</a>
+                    <a href="{% url 'question_delete' question.pk %}" onclick="return confirm('Удалить вопрос?')">🗑️</a>
+                    <div class="question-text">{{ question.text|truncatechars:100 }}</div>
+                    <div class="answer" id="answer-{{ question.pk }}" style="display: none;">
+                        {{ question.answer|safe }}
+                    </div>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет вопросов по этой теме.</p>
+    {% endif %}
+
+<p><a href="{% url 'index' %}">Назад к списку тем</a></p>
+
+<script>
+    function toggleAnswer(id) {
+        const answerDiv = document.getElementById('answer-' + id);
+        if (answerDiv.style.display === 'none') {
+            answerDiv.style.display = 'block';
+        } else {
+            answerDiv.style.display = 'none';
+        }
+    }
+</script>
+{% endblock content %}
