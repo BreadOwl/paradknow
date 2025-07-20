@@ -3,7 +3,6 @@ from .models import Topic, Question
 from django import forms
 import random
 
-#форма для темы
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
@@ -14,7 +13,6 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['title', 'topic', 'answer']
 
-#список тем + добавление
 def index(request):
     topics = Topic.objects.all()
 
@@ -31,7 +29,6 @@ def index(request):
         'form': form,
     })
 
-#редактирование темы
 def topic_edit(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
 
@@ -48,13 +45,11 @@ def topic_edit(request, pk):
         'topic': topic,
     })
 
-#удаление темы
 def topic_delete(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
     topic.delete()
     return redirect('index')
 
-#страница темы
 def topic_detail(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
     questions = topic.questions.all()  #получаем вопросы
